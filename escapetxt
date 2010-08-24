@@ -1,0 +1,47 @@
+#!/usr/bin/python
+import pprint
+import sys
+import glob
+
+
+import xml.dom.minidom
+from xml.dom.minidom import Node
+ 
+
+if len(sys.argv) != 2:
+  print "Usage:" + sys.argv[0] + " <TXT string name (TXT_AIO_LOGOUT)>"
+  sys.exit(1)
+
+
+filelist = glob.glob("*.xml")
+
+
+my_text_id = sys.argv[1]
+my_text_id = "TXT_AIO_LOGOUT"
+my_context_id = "TX_CONTEXT_VGA"
+
+print "text_id: " + my_text_id + "\ncontext_id: " + my_context_id
+
+for myfile in filelist:
+  print "processing file: " + myfile
+  doc = xml.dom.minidom.parse(myfile)
+  outfile = open(myfile + "." + my_text_id, "w")
+
+  try:
+    for node in doc.getElementsByTagName("textitem"):
+      if node.getAttribute("textID") == my_text_id:
+        for cnode in node.getElementsByTagName("context"):
+          if cnode.getAttribute("contextID") == my_context_id:
+            tnode = cnode.getElementsByTagName("text")
+          # write the utf-8 string in unicode_escape form ("\uxxxx")
+            outfile.write(tnode.item(0).firstChild.data.encode("unicode_escape"))
+#            print "found a match " +  tnode.item(0).firstChild.data.encode("unicode_escape")
+            raise StopIteration()
+          
+  except StopIteration:
+    pass
+
+  outfile.close()
+  doc.unlink()
+
+
