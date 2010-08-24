@@ -1,0 +1,7 @@
+pixman-*
+cairo
+include
+lib
+pixman*
+pycairo*
+12dicts
