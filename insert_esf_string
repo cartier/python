@@ -1,0 +1,129 @@
+#!/usr/bin/python
+
+
+"""Utility to extract a TXT string from the translations repository and insert the value as a new entry in the
+esf Resources files.  Can also replace existing strings."""
+
+
+
+import sys,os,re
+import xml.dom.minidom
+from xml.dom.minidom import Node
+ 
+
+if len(sys.argv) != 6:
+  print "Usage:" + sys.argv[0] + " <TXT string name> <translations repo xml directory> <esf tran directory> <new resources name> <resources name to append after>\n"
+  print "Ex: " + sys.argv[0] + " TXT_AIO_LOGOUT ~/src/translations/src/translations/xml ~/src/esf/java/tools/tran usbmymfp.logout usbmymfp.cancel\n"
+#  my_text_id = "TXT_AIO_LOGOUT"
+#  trans_dir = '~/src/translations/src/translations/xml'
+#  esf_dir = '~/src/esf/java/tools/tran'
+#  new_resource_name = "usbmymfp.logout"
+#  append_after = "usbmymfp.cancel"
+  sys.exit(1)
+else:
+  my_text_id = sys.argv[1]
+  trans_dir = sys.argv[2]
+  esf_dir = sys.argv[3]
+  new_resource_name =  sys.argv[4]
+  append_after = sys.argv[5]
+
+print "Text ID                          : " + my_text_id
+print "Translations repository directory: " + trans_dir
+print "Esf Resources directory          : " + esf_dir
+print "New resource name                : " + new_resource_name;
+print "Resource name to append after    : " + append_after
+print "\n\n"
+
+verify = raw_input("Correct? (y/n)")
+if verify.lower() != 'y':
+  print "Exiting."
+  sys.exit(2)
+
+trans_dir = os.path.expanduser(trans_dir)
+esf_dir = os.path.expanduser(esf_dir)
+
+# Map the translations repository xml files to the esf resource files
+trans_file_list = [ 
+  ('Czech.xml', 'Resources_cs.properties'),
+  ('Danish.xml', 'Resources_da.properties'),
+  ('German.xml', 'Resources_de.properties'),
+  ('Greek.xml', 'Resources_el.properties'),
+  ('English.xml', 'Resources_en.properties'),
+  ('Spanish.xml', 'Resources_es.properties'),
+  ('Finnish.xml', 'Resources_fi.properties'),
+  ('French.xml', 'Resources_fr.properties'),
+  ('Hungarian.xml', 'Resources_hu.properties'),
+  ('Italian.xml', 'Resources_it.properties'),
+  ('Japanese.xml', 'Resources_ja.properties'),
+  ('Korean.xml', 'Resources_ko.properties'),
+  ('Dutch.xml', 'Resources_nl.properties'),
+  ('Norwegian.xml', 'Resources_no.properties'),
+  ('Polish.xml', 'Resources_pl.properties'),
+  ('Portuguese.xml', 'Resources_pt.properties'),
+  ('Russian.xml', 'Resources_ru.properties'),
+  ('Swedish.xml', 'Resources_sv.properties'),
+  ('Turkish.xml', 'Resources_tr.properties'),
+  ('SimplifiedChinese.xml', 'Resources_zh.properties'),
+  ('TraditionalChinese.xml', 'Resources_zh_TW.properties'),
+]
+# prepend the paths
+trans_file_list = [ (trans_dir + '/' + x[0], esf_dir + '/' + x[1]) for x in trans_file_list ] 
+
+
+my_context_id = "TX_CONTEXT_VGA"
+
+force_replace = False
+
+for (trans_file, esf_file) in trans_file_list:
+    
+  esf_data = open(esf_file).read()
+  esf_out = open(esf_file, "w")
+  new_pat = re.compile(r"""%s""" % new_resource_name)
+  already_exists = re.search(new_pat, esf_data)
+
+  if already_exists:
+    print new_resource_name + " already exists in " +  esf_file
+  else:
+    print new_resource_name + " does not exist in " + esf_file
+
+
+  print 'processing file: %s into esf file %s\n' %  ( trans_file, esf_file )
+  doc = xml.dom.minidom.parse(trans_file)
+
+  try:
+    for node in doc.getElementsByTagName("textitem"):
+      if node.getAttribute("textID") == my_text_id:
+        for cnode in node.getElementsByTagName("context"):
+          if cnode.getAttribute("contextID") == my_context_id:
+            tnode = cnode.getElementsByTagName("text")
+          # write the utf-8 string in unicode_escape form ("\uxxxx")
+            encoded_string = tnode.item(0).firstChild.data.encode("unicode_escape")
+            encoded_string = re.sub(r'\\x', r'\\u00',  encoded_string)
+            print "found a match: '" +  encoded_string + "'\n\n"
+
+ 
+#            print "force_replace = ", force_replace
+#            print "already_exists = ", already_exists
+
+            if (force_replace == False) & (already_exists != None):
+              answer = raw_input("Warning: " + new_resource_name + " already exists.  Replace (y/n)? ")
+              force_replace = answer.lower() == 'y'
+
+            if force_replace:
+              pat  = r"""(%s.*)""" % new_resource_name
+              repl = r"""%s=%s""" % (new_resource_name, encoded_string)
+            else:
+              pat  = r"""(%s.*)""" % append_after
+              repl = r"""\1\n%s=%s""" % (new_resource_name, encoded_string)
+            
+            esf_out.write( re.sub(pat,repl, esf_data))
+            esf_out.close()
+
+            raise StopIteration()
+          
+  except StopIteration:
+    pass
+
+  doc.unlink()
+
+
