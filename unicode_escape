@@ -1,0 +1,45 @@
+#!/usr/bin/python
+
+
+"""Utility to print utf strings in the unicode_escape format needed by the esf Resources files."""
+
+
+
+import sys,os,re
+import xml.dom.minidom
+from xml.dom.minidom import Node
+import glob
+import codecs
+
+if len(sys.argv) != 2:
+  print "Usage:" + sys.argv[0] + " <source translated string dir>\n"
+  print "Ex: " + sys.argv[0] + " ~cartier/xps/ptr/388661/newtrans"
+  print "\n\n"
+  my_source_dir = "~cartier/xps/ptr/388661/newtrans"
+#  sys.exit(1)
+else:
+  my_source_dir = sys.argv[1]
+
+source_file_list = glob.glob(os.path.expanduser(my_source_dir) + "/*")
+
+
+# prepend the paths
+#trans_file_list = [ (trans_dir + '/' + x[0], esf_dir + '/' + x[1]) for x in trans_file_list ] 
+
+
+for(source_file) in source_file_list:
+  new_trans_data = codecs.open(source_file,"r","utf-8").read()
+  if new_trans_data[0] == unicode( codecs.BOM_UTF8, "utf8" ):
+    # The unicode string begins with the BOM: Do something.
+    # For example, remove the character.
+
+    # Strip the BOM from the beginning of the Unicode string, if it exists
+    new_trans_data = new_trans_data.lstrip( unicode( codecs.BOM_UTF8, "utf8" ) )
+
+  new_trans_data = new_trans_data.strip( "\r\n" )
+
+
+  encoded_string = new_trans_data.encode("unicode_escape")
+  encoded_string = re.sub(r'\\x', r'\\u00',  encoded_string)
+  encoded_string = re.sub(r'\\x', r'\\u00',  encoded_string)
+  print os.path.basename(source_file) + ":" + encoded_string + "\n"
