@@ -10,16 +10,19 @@ import sys,os,re
 import xml.dom.minidom
 from xml.dom.minidom import Node
  
+def usage():
+  print sys.argv[0] + " : Utility to extract a TXT string from the translations repository and insert the value as a new entry in the esf Resources files.  Can also replace existing strings.\n\n"
+  print "Usage:" + sys.argv[0] + " <TXT string name> <translations repo xml directory> <esf tran directory> <new resources name> <resources name to append after>\n"
+  print "Example: " + sys.argv[0] + " TXT_AIO_LOGOUT ~cartier/src/translations/src/translations/xml ~cartier/src/esf/java/tools/tran usbmymfp.logout usbmymfp.cancel\n"
+  sys.exit(1)  
 
 if len(sys.argv) != 6:
-  print "Usage:" + sys.argv[0] + " <TXT string name> <translations repo xml directory> <esf tran directory> <new resources name> <resources name to append after>\n"
-  print "Ex: " + sys.argv[0] + " TXT_AIO_LOGOUT ~/src/translations/src/translations/xml ~/src/esf/java/tools/tran usbmymfp.logout usbmymfp.cancel\n"
 #  my_text_id = "TXT_AIO_LOGOUT"
 #  trans_dir = '~/src/translations/src/translations/xml'
 #  esf_dir = '~/src/esf/java/tools/tran'
 #  new_resource_name = "usbmymfp.logout"
 #  append_after = "usbmymfp.cancel"
-  sys.exit(1)
+  usage()
 else:
   my_text_id = sys.argv[1]
   trans_dir = sys.argv[2]

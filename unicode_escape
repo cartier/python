@@ -11,12 +11,16 @@ from xml.dom.minidom import Node
 import glob
 import codecs
 
-if len(sys.argv) != 2:
+def usage():
+  print sys.argv[0] + " : Utility to print utf strings in the unicode_escape format needed by the esf Resources files.\n"
   print "Usage:" + sys.argv[0] + " <source translated string dir>\n"
   print "Ex: " + sys.argv[0] + " ~cartier/xps/ptr/388661/newtrans"
   print "\n\n"
   my_source_dir = "~cartier/xps/ptr/388661/newtrans"
-#  sys.exit(1)
+  sys.exit(1)
+
+if len(sys.argv) != 2:
+  usage()
 else:
   my_source_dir = sys.argv[1]
 
