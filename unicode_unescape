@@ -1,0 +1,39 @@
+#!/usr/bin/python
+
+
+"""Utility to print unicode_escape strings from the esf Resources files in utf-8 that is used by the translations folks."""
+
+
+
+import sys,os,re
+import xml.dom.minidom
+from xml.dom.minidom import Node
+import glob
+import codecs
+
+def usage():
+  print sys.argv[0] + " : Utility to print unicode_escape strings from the esf Resources files in utf-8 that is used by the translations folks.\n"
+  print "Usage:" + sys.argv[0] + " <Resource files dir>\n"
+  print "Ex: " + sys.argv[0] + " ~cartier/xps/ptr/393105"
+  print "\n\n"
+  my_source_dir = "~cartier/xps/ptr/393105"
+  sys.exit(1)
+
+if len(sys.argv) != 2:
+  usage()
+else:
+  my_source_dir = sys.argv[1]
+
+source_file_list = glob.glob(os.path.expanduser(my_source_dir) + "/Resources_*.properties")
+
+
+for(source_file) in source_file_list:
+  out_file = open(source_file + ".utf8", "w")
+
+  new_trans_data = codecs.open(source_file,"r","unicode_escape").read()
+
+  encoded_string = new_trans_data.encode("utf-8")
+  print os.path.basename(source_file) + ":" + encoded_string + "\n"
+
+  out_file.write( encoded_string )
+  out_file.close()
