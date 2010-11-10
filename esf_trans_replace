@@ -1,0 +1,78 @@
+#!/usr/bin/python
+
+
+"""Utility to write utf strings in the unicode_escape format needed by the esf Resources files."""
+
+
+
+import sys,os,re
+import xml.dom.minidom
+from xml.dom.minidom import Node
+import glob
+import codecs
+
+def usage():
+  print sys.argv[0] + " : Utility to write utf strings in the unicode_escape format needed by the esf Resources files.\n"
+  print "Usage:" + sys.argv[0] + " <source translated string dir> <target translated string dir>\n"
+  print "Ex: " + sys.argv[0] + " ~cartier/xps/ptr/393105/32176-DE-EL  ~cartier/esf/java/tools/tran"
+  print "\n\n"
+  sys.exit(1)
+
+if len(sys.argv) != 2:
+  usage()
+  my_source_dir = "~cartier/xps/ptr/393105/32176-DE-EL"
+  my_target_dir = "~cartier/src/esf/java/tools/tran"
+else:
+  my_source_dir = sys.argv[1]
+  my_target_dir = sys.argv[2]
+
+my_target_dir = os.path.expanduser(my_target_dir)
+my_source_dir = os.path.expanduser(my_source_dir)
+
+#print my_source_dir + "  " + my_target_dir
+source_file_list = glob.glob(os.path.expanduser(my_source_dir) + "/*")
+
+
+# prepend the paths
+#trans_file_list = [ (trans_dir + '/' + x[0], esf_dir + '/' + x[1]) for x in trans_file_list ] 
+
+
+for(esf_file) in source_file_list:
+  new_trans_data = codecs.open(esf_file,"r","utf-8").read()
+  if new_trans_data[0] == unicode( codecs.BOM_UTF8, "utf8" ):
+    # The unicode string begins with the BOM: Do something.
+    # For example, remove the character.
+
+    # Strip the BOM from the beginning of the Unicode string, if it exists
+    new_trans_data = new_trans_data.lstrip( unicode( codecs.BOM_UTF8, "utf8" ) )
+
+  new_trans_data = new_trans_data.strip( "\r\n" )
+
+
+  encoded_string = new_trans_data.encode("unicode_escape")
+  encoded_string = re.sub(r'\\x', r'\\u00',  encoded_string)
+  encoded_string = re.sub(r'\\x', r'\\u00',  encoded_string)
+#  print os.path.basename(esf_file) + ":" + encoded_string + "\n"
+
+  myre = re.compile(r'^(?P<resourcename>(.*?))=(?P<resourcevalue>(.*?))$')
+  mymatch = myre.match(encoded_string)
+  resource_name  = mymatch.group('resourcename')
+  resource_value = mymatch.group('resourcevalue')
+
+#  print "VARNAME   = " + resource_name
+#  print "VAR VALUE = " + resource_value
+
+# TODO make this work for multiple lines
+  new_esf_file = my_target_dir + "/" + os.path.basename(esf_file)
+
+#  print "opening: " + new_esf_file
+  esf_data = open(new_esf_file).read()
+  esf_out = open(new_esf_file, "w")
+  pat = r"""(%s.*)""" % resource_name
+  repl = r"""%s=%s""" % (resource_name, resource_value)
+  
+#  print "pat = " + pat
+#  print "repl = " + repl
+
+  esf_out.write( re.sub(pat,repl, esf_data))
+  esf_out.close()
