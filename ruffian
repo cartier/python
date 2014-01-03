@@ -1,0 +1,25 @@
+#!/usr/bin/python
+
+
+
+firstval = 1738
+
+secondval = 1909
+
+for year in range(1988,2012):
+  digabc = year - 1738
+  digdef = year - 1909
+
+  a = int(digabc / 100 % 10)
+  b = int(digabc / 10 % 10)
+  c = digabc % 10
+
+  d= int(digdef / 10 % 10)
+  e= digdef % 10
+
+  chksum = a+b+c+d+e
+  if chksum==24:
+    print year
+    print "N 38 06.%1d%d%d W 084 33.0%1d%1d" % ( a,b,c,d,e)
+# print digabc,a,b,c,year
+# print digdef,d,e,f,year, chksum
