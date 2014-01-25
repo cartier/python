@@ -17,10 +17,9 @@ mylen = len(mystr)
 myrevstr = ''
 for i in xrange(len(mystr) - 1, -1, -1):
 #	print mystr[i]
-	myrevstr.join(mystr[i])
+	myrevstr += mystr[i]
 
-print myrevstr
-
+print "Iterative reversal: " + myrevstr
 
 
 
@@ -31,13 +30,14 @@ def revstr(str) :
 	if str_len == 1 :
 		return str
 
-	new = str[str_len-1:] + revstr(str[:str_len-1])
+	new = str[str_len-1] + revstr(str[:str_len-1])
 	return new
 	
 
 
 
 
-print revstr.__doc__
+print "Recursive string function doc string" + revstr.__doc__
+print "Recursive string function doc string" + revstr(revstr.__doc__)
 
-print revstr(mystr)
+print "Recursive reversal: "+ revstr(mystr)
