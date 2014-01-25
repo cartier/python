@@ -19,10 +19,14 @@ cache_count = 0
 
 for line in content:
 #      print line
-      remat = re.match(r'.*# (\d+)', line)
+      remat = re.match(r'.*(\d{1,2}/\d/\d{4,4}).*(\d{1,2}/\d/\d{4,4}).*# (\d+)', line)
       if remat != None:
-            cache_count += int(remat.group(1))
-            print "add %d" % int(remat.group(1))
+            start_date = remat.group(1)
+            end_date = remat.group(2)
+            cache_num = int(remat.group(3))
+            cache_count += cache_num
+            print start_date, end_date, cache_num
+
 
 print cache_count
 
