@@ -42,54 +42,113 @@ We use a point system:
 
 """
 
-score = 0
+
+def hertsmi(ap, av, cg, sc, ws, date):
+	score = 0
+	if ap > 500:
+		score += 10
+	elif ap > 100:
+		score += 6
+	elif ap > 10:
+		score += 4
+		
+	if av > 500:
+		score += 10
+	elif av > 100:
+		score += 6
+	elif av > 10:
+		score += 4
+			
+	if cg > 125:
+		score += 10
+	elif cg > 25:
+		score += 6
+	elif cg > 10:
+		score += 4
+		
+	if sc > 125:
+		score += 10
+	elif sc > 25:
+		score += 6
+	elif sc > 10:
+		score += 4
+
+	if ws > 2500:
+		score += 10
+	elif ws > 500:
+		score += 6
+	elif ws > 100:
+		score += 4
 
 
+	print("%-40s   ap = %4d  av = %4d  cg = %4d  sc = %4d  ws = %4d     hertsmi_2 = %4d\n" % (date, ap, av, cg, sc, ws, score))
+	
+
+# 2013
 ap = 140
 av = 49
 cg = 15
 sc = 1
 ws = 250
+hertsmi(ap, av, cg, sc, ws, "01/2013 family room")
 
-if ap > 500:
-	score += 10
-elif ap > 100:
-	score += 6
-elif ap > 10:
-	score += 4
+# 8/2012 family room
+ap = 19
+av = 32
+cg = 0
+sc = 0
+ws = 600
+hertsmi(ap, av, cg, sc, ws, "08/2012 family room")
 
-if av > 500:
-	score += 10
-elif av > 100:
-	score += 6
-elif av > 10:
-	score += 4
+# 8/2012 bedroom
+ap = 15
+av = 38
+cg = 4
+sc = 0
+ws = 430
+hertsmi(ap, av, cg, sc, ws, "08/2012 bedroom")
 
-if cg > 125:
-	score += 10
-elif cg > 25:
-	score += 6
-elif cg > 10:
-	score += 4
+# 8/2012 office
+ap = 46
+av = 35
+cg = 6
+sc = 0
+ws = 760
+hertsmi(ap, av, cg, sc, ws, "08/2012 office")
 
-if sc > 125:
-	score += 10
-elif sc > 25:
-	score += 6
-elif sc > 10:
-	score += 4
+# 6/2012 Lexmark 035 1k1
+ap = 8
+av = 4
+cg = 1
+sc = 0
+ws = 410
+hertsmi(ap, av, cg, sc, ws, "06/2012 Lexmark 035 1k1")
 
-if ws > 2500:
-	score += 10
-elif ws > 500:
-	score += 6
-elif ws > 100:
-	score += 4
+# 6/2012 Lexmark 082 
+ap = 85
+av = 19
+cg = 5
+sc = 15
+ws = 750
+hertsmi(ap, av, cg, sc, ws, "06/2012 Lexmark 082")
 
 
-print score
+# 5/2012  EMSL (not a good test, vacummed couch)
+ap = 2542
+av = 2745
+cg = 0
+sc = 0
+ws = 0
+hertsmi(ap, av, cg, sc, ws, "05/2012 EMSL family room/bedroom vacuum")
 
 
+# 5/2012  EMSL (bedroom)
+ap = 0
+av = 0
+cg = 0
+sc = 0
+ws = 0
+hertsmi(ap, av, cg, sc, ws, "05/2012 EMSL beroom")
 
 	
 
