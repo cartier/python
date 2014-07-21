@@ -1,0 +1,24 @@
+#!/usr/bin/python
+
+# Print gpx waypoints in a format that is nice for geocache submission
+
+import sys
+from bs4 import BeautifulSoup
+
+def handle_xml_file(xmlfile):
+	file=open(xmlfile, 'r')
+	soup = BeautifulSoup(file)
+
+	print "===================== " + xmlfile + " ============================="
+	for wpt in soup.find_all('wpt'):
+		print('  ' + wpt.find("name").string + ':')
+		print('\t' + wpt.time.string)
+		print('\t' + wpt['lat'] + ', ' + wpt['lon'])
+		print
+
+
+for file in sys.argv[1:]:
+	handle_xml_file(file)
+
+
+
