@@ -82,6 +82,53 @@ def hertsmi(ap, av, cg, sc, ws, date):
 
 
 	print("%-40s   ap = %4d  av = %4d  cg = %4d  sc = %4d  ws = %4d     hertsmi_2 = %4d\n" % (date, ap, av, cg, sc, ws, score))
+
+# 10/2014  bedroom
+ap = 0
+av = 0
+cg = 0
+sc = 0
+ws = 22
+hertsmi(ap, av, cg, sc, ws, "10/2014 bedroom")
+	
+
+# 10/2014  family room computer table
+ap = 11
+av = 10
+cg = 2
+sc = 0
+ws = 120
+hertsmi(ap, av, cg, sc, ws, "10/2014 family room")
+	
+
+# 10/2014  002 cube farm N14403
+ap = 7
+av = 0
+cg = 0
+sc = 0
+ws = 55
+hertsmi(ap, av, cg, sc, ws, "10/2014 002 cube farm N14403")
+
+
+# 10/2014  002 cube farm N4407
+ap = 3
+av = 0
+cg = 0
+sc = 2
+ws = 20
+hertsmi(ap, av, cg, sc, ws, "10/2014 002 cube farm N4407")
+
+
+
+
+# 2/2014  002 cube farm
+ap = 91
+av = 64
+cg = 2
+sc = 12
+ws = 110
+hertsmi(ap, av, cg, sc, ws, "02/2014 002 cube farm")
+
 	
 
 # 2013
