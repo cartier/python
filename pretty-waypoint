@@ -12,6 +12,8 @@ def handle_xml_file(xmlfile):
 	print "===================== " + xmlfile + " ============================="
 	for wpt in soup.find_all('wpt'):
 		print('  ' + wpt.find("name").string + ':')
+                if(wpt.find("cmt")):
+                        print('\t' + wpt.find("cmt").string)
 		print('\t' + wpt.time.string)
 		print('\t' + wpt['lat'] + ', ' + wpt['lon'])
 		print
