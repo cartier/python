@@ -47,41 +47,66 @@ def hertsmi(ap, av, cg, sc, ws, date):
 	score = 0
 	if ap > 500:
 		score += 10
-	elif ap > 100:
+	elif ap >= 100:
 		score += 6
-	elif ap > 10:
+	elif ap >= 10:
 		score += 4
 		
 	if av > 500:
 		score += 10
-	elif av > 100:
+	elif av >= 100:
 		score += 6
-	elif av > 10:
+	elif av >= 10:
 		score += 4
 			
 	if cg > 125:
 		score += 10
-	elif cg > 25:
+	elif cg >= 25:
 		score += 6
-	elif cg > 10:
+	elif cg >= 5:
 		score += 4
 		
 	if sc > 125:
 		score += 10
-	elif sc > 25:
+	elif sc >= 25:
 		score += 6
-	elif sc > 10:
+	elif sc >= 5:
 		score += 4
 
 	if ws > 2500:
 		score += 10
-	elif ws > 500:
+	elif ws >= 500:
 		score += 6
-	elif ws > 100:
+	elif ws >= 100:
 		score += 4
 
 
 	print("%-40s   ap = %4d  av = %4d  cg = %4d  sc = %4d  ws = %4d     hertsmi_2 = %4d\n" % (date, ap, av, cg, sc, ws, score))
+
+# 01/2017  family room
+ap = 120
+av = 58
+cg = 1
+sc = 0
+ws = 160
+hertsmi(ap, av, cg, sc, ws, "01/2017 family room")
+
+# 01/2017  master bedroom
+ap = 38
+av = 63
+cg = 0
+sc = 0
+ws = 180
+hertsmi(ap, av, cg, sc, ws, "01/2017 master bedroom")
+
+# 01/2017  basement
+ap = 50
+av = 110
+cg = 5
+sc = 0
+ws = 75
+hertsmi(ap, av, cg, sc, ws, "01/2017 basement")
+
 
 # 10/2014  bedroom
 ap = 0
