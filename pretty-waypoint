@@ -6,21 +6,20 @@ import sys
 from bs4 import BeautifulSoup
 
 def handle_xml_file(xmlfile):
-	file=open(xmlfile, 'r')
-	soup = BeautifulSoup(file)
-
-	print "===================== " + xmlfile + " ============================="
-	for wpt in soup.find_all('wpt'):
-		print('  ' + wpt.find("name").string + ':')
+        file=open(xmlfile, 'r')
+        soup = BeautifulSoup(file, "lxml")
+        print ("===================== " + xmlfile + " =============================")
+        for wpt in soup.find_all('wpt'):
+                print('  ' + wpt.find("name").string + ':')
                 if(wpt.find("cmt")):
                         print('\t' + wpt.find("cmt").string)
-		print('\t' + wpt.time.string)
-		print('\t' + wpt['lat'] + ', ' + wpt['lon'])
-		print
+                print('\t' + wpt.time.string)
+                print('\t' + wpt['lat'] + ', ' + wpt['lon'])
+                print('')
 
 
 for file in sys.argv[1:]:
-	handle_xml_file(file)
+        handle_xml_file(file)
 
 
 
