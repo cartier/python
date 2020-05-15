@@ -3,6 +3,8 @@
 # Print gpx waypoints in a format that is nice for geocache submission
 
 import sys
+import latlong_in_decimal_minutes as ll
+
 from bs4 import BeautifulSoup
 
 def handle_xml_file(xmlfile):
@@ -14,7 +16,8 @@ def handle_xml_file(xmlfile):
                 if(wpt.find("cmt")):
                         print('\t' + wpt.find("cmt").string)
                 print('\t' + wpt.time.string)
-                print('\t' + wpt['lat'] + ', ' + wpt['lon'])
+                ll.printf('\t')
+                ll.latlong_in_decimal_minutes(wpt['lat'],wpt['lon'])
                 print('')
 
 
