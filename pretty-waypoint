@@ -12,11 +12,12 @@ def handle_xml_file(xmlfile):
         soup = BeautifulSoup(file, "lxml")
         print ("===================== " + xmlfile + " =============================")
         for wpt in soup.find_all('wpt'):
-                print('  ' + wpt.find("name").string + ':')
+                if(wpt.find("name")):
+                        print(wpt.find("name").string + ':')
                 if(wpt.find("cmt")):
-                        print('\t' + wpt.find("cmt").string)
-                print('\t' + wpt.time.string)
-                ll.printf('\t')
+                        print(wpt.find("cmt").string)
+                if(wpt.find("time")):
+                        print(wpt.find("time").string)
                 ll.latlong_in_decimal_minutes(wpt['lat'],wpt['lon'])
                 print('')
 
