@@ -1,0 +1,26 @@
+#!/usr/bin/python
+
+
+"""Print lat/long in DD MM.MMM format given decimal degrees"""
+
+import re,sys,os
+
+import latlong_in_decimal_minutes as latlong
+
+def usage():
+  print "\nUsage :" + os.path.basename(sys.argv[0]) + " xx.xxxxxx, yy.yyyyyy\n"
+  sys.exit(1)
+
+
+if(len(sys.argv) == 1):
+  usage()
+  exit
+
+input=' '.join(sys.argv[1:])
+
+try:
+  (lat,lon) =  [t(s) for t,s in zip((float,float),re.search('^([-\d.]+)[,\s]+([-\d.]+)$',input).groups())]
+  latlong.latlong_in_decimal_minutes(lat, lon)
+
+except:
+  usage()
