@@ -3,15 +3,14 @@
 
 """Print lat/long in DD MM.MMM format given decimal degrees"""
 
-import sys
+import re,sys,os
+
 def printf(format, *args):
     sys.stdout.write(format % args)
 
 
 def usage():
-  print sys.argv[0] + " : Print lat/long in DD MM.MMM format given decimal degrees.\n"
-  print "Usage:" + sys.argv[0] + " xx.xxxxxx, yy.yyyyyy\n"
-  print "\n\n"
+  print "\nUsage :" + os.path.basename(sys.argv[0]) + " xx.xxxxxx, yy.yyyyyy\n"
   sys.exit(1)
 
 def latlong_in_decimal_minutes(lat, lon):
@@ -36,10 +35,18 @@ def latlong_in_decimal_minutes(lat, lon):
         londeg = int(lon)
         lonmin = (lon - int(lon)) * 60
 
-        printf("%c %2d %02.3f %c %03d %02.3f\n", cardinal_lat, latdeg, latmin, cardinal_lon, londeg, lonmin)
+        printf("\n%c %2d %02.3f %c %03d %02.3f\n", cardinal_lat, latdeg, latmin, cardinal_lon, londeg, lonmin)
 
 
-if(len(sys.argv) == 3):
-    lat = float(sys.argv[1])
-    lon = float(sys.argv[2])
+if(len(sys.argv) == 1):
+    usage()
+    exit
+
+input=' '.join(sys.argv[1:])
+
+try:
+    (lat,lon) =  [t(s) for t,s in zip((float,float),re.search('^([-\d.]+)[,\s]+([-\d.]+)$',input).groups())]
     latlong_in_decimal_minutes(lat, lon)
+
+except:
+    usage()
