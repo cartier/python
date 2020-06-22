@@ -9,9 +9,12 @@ from bs4 import BeautifulSoup
 
 def handle_xml_file(xmlfile):
         file=open(xmlfile, 'r')
+        cnt = 0
         soup = BeautifulSoup(file, "lxml")
         print ("===================== " + xmlfile + " =============================")
         for wpt in soup.find_all('wpt'):
+                cnt += 1
+                print("\t\t\t\t # " + str(cnt))
                 if(wpt.find("name")):
                         print(wpt.find("name").string + ':')
                 if(wpt.find("cmt")):
@@ -19,7 +22,7 @@ def handle_xml_file(xmlfile):
                 if(wpt.find("time")):
                         print(wpt.find("time").string)
                 ll.latlong_in_decimal_minutes(wpt['lat'],wpt['lon'])
-                print('')
+                print('---------------------------------------------------------------')
 
 
 for file in sys.argv[1:]:
