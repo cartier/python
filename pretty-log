@@ -1,0 +1,60 @@
+#!/usr/bin/python
+
+# Print geocache_logs.xml log entries in a nice format
+
+# todo: add date range argument
+
+import sys
+from datetime import datetime,timedelta
+from bs4 import BeautifulSoup
+
+def handle_xml_file(xmlfile):
+        file=open(xmlfile, 'r')
+        cnt = 0
+        soup = BeautifulSoup(file, "lxml")
+
+        # get the last time stamp from the logs file to determine the timezone to use
+        temp_time = datetime.strptime(soup.find_all('log')[-1].find("time").string, '%Y-%m-%dT%H:%M:%S%z')
+        now = datetime.now(temp_time.tzinfo)
+        days_before = 12
+        earliest_time = now - timedelta(days=days_before)
+        
+        print ("===================== " + xmlfile + " =============================")
+        for log in soup.find_all('log'):
+                gc_code = log.find("code").string
+                gc_time = log.find("time").string
+                gc_result = log.find("result").string
+                gc_comment = log.find("comment").string
+
+                log_time = datetime.strptime(gc_time, '%Y-%m-%dT%H:%M:%S%z')
+                # if date not in date range then continue
+
+                #print(log_time)
+                #print(earliest_time)
+                #print(log_time - earliest_time)
+
+                if(log_time < earliest_time):
+                        continue
+                
+                cnt += 1
+                print("\t\t\t\t # " + str(cnt))
+
+                print("GC Code: " + gc_code)
+                print("Time   : " + gc_time)
+                print("Result : " + gc_result)
+                print("Comment: " + (gc_comment if gc_comment is not None else ""))
+                
+                
+                print('---------------------------------------------------------------')
+
+
+#TODO add args parsing 
+if (len(sys.argv) > 1):                
+        file =  sys.argv[1:]
+else:
+        file = "/home/brian/Dropbox/geocaching/geocache_logs.xml"
+
+handle_xml_file(file)
+
+
+
