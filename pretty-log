@@ -7,6 +7,7 @@
 import sys
 from datetime import datetime,timedelta
 from bs4 import BeautifulSoup
+import webbrowser
 
 def handle_xml_file(xmlfile):
         file=open(xmlfile, 'r')
@@ -44,6 +45,11 @@ def handle_xml_file(xmlfile):
                 print("Result : " + gc_result)
                 print("Comment: " + (gc_comment if gc_comment is not None else ""))
                 
+                uri = 'https://www.geocaching.com/play/geocache/' + gc_code + '/log'
+                print("URI:   : " + uri)
+
+                if(open_in_browser):
+                        webbrowser.open(uri)
                 
                 print('---------------------------------------------------------------')
 
@@ -54,6 +60,7 @@ if (len(sys.argv) > 1):
 else:
         file = "/home/brian/Dropbox/geocaching/geocache_logs.xml"
 
+open_in_browser = False;
 handle_xml_file(file)
 
 
