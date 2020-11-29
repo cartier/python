@@ -9,6 +9,9 @@ from datetime import datetime,timedelta
 from bs4 import BeautifulSoup
 import webbrowser
 
+# default
+days_before = 12
+
 def handle_xml_file(xmlfile):
         file=open(xmlfile, 'r')
         cnt = 0
@@ -19,7 +22,6 @@ def handle_xml_file(xmlfile):
         # get the last time stamp from the logs file to determine the timezone to use
         temp_time = datetime.strptime(soup.find_all('log')[-1].find("time").string, '%Y-%m-%dT%H:%M:%S%z')
         now = datetime.now(temp_time.tzinfo)
-        days_before = 12
         earliest_time = now - timedelta(days=days_before)
         
         print ("===================== " + xmlfile + " =============================")
@@ -67,12 +69,13 @@ def handle_xml_file(xmlfile):
 
 #TODO add args parsing 
 if (len(sys.argv) > 1):                
-        file =  sys.argv[1:]
+        file =  sys.argv[1]
+        if(len(sys.argv) > 2):
+                days_before = int(sys.argv[2])
 else:
         file = "/home/brian/Dropbox/geocaching/geocache_logs.xml"
 
 open_in_browser = False;
 handle_xml_file(file)
-
 
 
