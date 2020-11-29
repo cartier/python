@@ -12,6 +12,8 @@ import webbrowser
 def handle_xml_file(xmlfile):
         file=open(xmlfile, 'r')
         cnt = 0
+        found_count = 0
+        dnf_count = 0
         soup = BeautifulSoup(file, "lxml")
 
         # get the last time stamp from the logs file to determine the timezone to use
@@ -44,14 +46,23 @@ def handle_xml_file(xmlfile):
                 print("Time   : " + gc_time)
                 print("Result : " + gc_result)
                 print("Comment: " + (gc_comment if gc_comment is not None else ""))
+
+
+                if(gc_result == "found it"):
+                        found_count = found_count + 1
+                elif(gc_result == "did not find"):
+                        dnf_count = dnf_count + 1
                 
                 uri = 'https://www.geocaching.com/play/geocache/' + gc_code + '/log'
                 print("URI:   : " + uri)
 
                 if(open_in_browser):
                         webbrowser.open(uri)
+
                 
                 print('---------------------------------------------------------------')
+        print("FIND COUNT:  {0} ".format(str(found_count)))
+        print("DNF  COUNT:  {0} ".format(str(dnf_count)))
 
 
 #TODO add args parsing 
