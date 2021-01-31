@@ -8,11 +8,16 @@ import sys
 from datetime import datetime,timedelta
 from bs4 import BeautifulSoup
 import webbrowser
+import tempfile
 
 # default
-days_before = 12
+days_before = 13
+open_in_browser = True;
 
-def handle_xml_file(xmlfile):
+def pause():
+    programPause = input("Press the <ENTER> key to continue...")
+
+def process_geocache_logs_xml_file(xmlfile, open_in_browser):
         file=open(xmlfile, 'r')
         cnt = 0
         found_count = 0
@@ -24,53 +29,56 @@ def handle_xml_file(xmlfile):
         now = datetime.now(temp_time.tzinfo)
         earliest_time = now - timedelta(days=days_before)
 
-        print("<html><body>")
-        print ("<h1> xmlfile </h1>")
-        for log in soup.find_all('log'):
-                gc_code = log.find("code").string
-                gc_time = log.find("time").string
-                gc_result = log.find("result").string
-                gc_comment = log.find("comment").string
+        with tempfile.NamedTemporaryFile(suffix='.html', mode = 'w') as outfile:
+                print("<html><body>", file=outfile)
+                print ("<h1> xmlfile </h1>", file=outfile)
+                for log in soup.find_all('log'):
+                        gc_code = log.find("code").string
+                        gc_time = log.find("time").string
+                        gc_result = log.find("result").string
+                        gc_comment = log.find("comment").string
 
-                log_time = datetime.strptime(gc_time, '%Y-%m-%dT%H:%M:%S%z')
-                # if date not in date range then continue
+                        log_time = datetime.strptime(gc_time, '%Y-%m-%dT%H:%M:%S%z')
+                        # if date not in date range then continue
 
-                #print(log_time)
-                #print(earliest_time)
-                #print(log_time - earliest_time)
+                        #print(log_time, file=outfile)
+                        #print(earliest_time, file=outfile)
+                        #print(log_time - earliest_time, file=outfile)
 
-                if(log_time < earliest_time):
-                        continue
-                cnt += 1
-                print("<h5>\t\t\t\t # " + str(cnt))
+                        if(log_time < earliest_time):
+                                continue
+                        cnt += 1
+                        print("<h2>\t\t\t\t # " + str(cnt), file=outfile)
 
-                print("<br>GC Code: " + gc_code)
-                print("<br>Time   : " + gc_time)
-                print("<br>Result : " + gc_result)
-                print("<br>Comment: " + (gc_comment if gc_comment is not None else ""))
+                        print("  GC Code: " + gc_code, file=outfile)
+                        print("  Time   : " + gc_time, file=outfile)
+                        print("  Result : " + gc_result, file=outfile)
+                        print("  Comment: " + (gc_comment if gc_comment is not None else "None"), file=outfile)
 
-                if(gc_result == "found it"):
-                        found_count = found_count + 1
-                elif(gc_result == "did not find"):
-                        dnf_count = dnf_count + 1
-                uri = 'https://www.geocaching.com/play/geocache/' + gc_code + '/log'
-                print('<a href="' + uri + '">' + uri + '</a><br>')
+                        if(gc_result == "found it"):
+                                found_count = found_count + 1
+                        elif(gc_result == "did not find"):
+                                dnf_count = dnf_count + 1
+                        uri = 'https://www.geocaching.com/play/geocache/' + gc_code + '/log'
+                        print('<br><a href="' + uri + '">' + uri + '</a><br>', file=outfile)
 
+                print('-------------------------------------------------------------', file=outfile)
+                print("<br><br>FIND COUNT:  {0} ".format(str(found_count)), file=outfile)
+                print("<br>DNF  COUNT:  {0} ".format(str(dnf_count)), file=outfile)
+
+                outfile.flush()
                 if(open_in_browser):
-                        webbrowser.open(uri)
-
-        print('-------------------------------------------------------------')
-        print("<br><br>FIND COUNT:  {0} ".format(str(found_count)))
-        print("<br>DNF  COUNT:  {0} ".format(str(dnf_count)))
-
+                        webbrowser.open('file://' + outfile.name)
+                        pause()
 
 #TODO add args parsing 
 if (len(sys.argv) > 1):                
         days_before = int(sys.argv[1])
+if (len(sys.argv) > 2):                
+        open_in_browser = int(sys.argv[2])
 
 file = "/media/brian/GARMIN/Garmin/geocache_logs.xml"
 
-open_in_browser = False;
-handle_xml_file(file)
+process_geocache_logs_xml_file(file, open_in_browser)
 
 
