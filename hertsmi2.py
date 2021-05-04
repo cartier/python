@@ -83,6 +83,30 @@ def hertsmi(ap, av, cg, sc, ws, date):
 
 	print("%-40s   ap = %4d  av = %4d  cg = %4d  sc = %4d  ws = %4d     hertsmi_2 = %4d\n" % (date, ap, av, cg, sc, ws, score))
 
+location="04/2021  basement"
+ap = 33
+av = 152
+cg = 0
+sc = 0
+ws = 45
+hertsmi(ap, av, cg, sc, ws, location)
+
+location="04/2021  1st floor"
+ap = 148
+av = 23
+cg = 13
+sc = 0
+ws = 30
+hertsmi(ap, av, cg, sc, ws, location)
+
+location="04/2021  2nd floor"
+ap = 56
+av = 0
+cg = 7
+sc = 0
+ws = 13
+hertsmi(ap, av, cg, sc, ws, location)
+
 # 01/2017  family room
 ap = 120
 av = 58
