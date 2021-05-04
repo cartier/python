@@ -9,3 +9,4 @@ lib
 pixman*
 pycairo*
 12dicts
+*.pyc
