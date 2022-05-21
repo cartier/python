@@ -11,7 +11,7 @@ import webbrowser
 import tempfile
 
 # default
-days_before = 13
+days_before = 1
 open_in_browser = True;
 
 def pause():
