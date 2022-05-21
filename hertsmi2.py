@@ -81,7 +81,7 @@ def hertsmi(ap, av, cg, sc, ws, date):
 		score += 4
 
 
-	print("%-40s   ap = %4d  av = %4d  cg = %4d  sc = %4d  ws = %4d     hertsmi_2 = %4d\n" % (date, ap, av, cg, sc, ws, score))
+	print("%-40s   ap = %4d  av = %4d  cg = %4d  sc = %4d  ws = %4d     hertsmi_2 = %4d" % (date, ap, av, cg, sc, ws, score))
 
 location="04/2021  basement"
 ap = 33
