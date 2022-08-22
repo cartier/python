@@ -35,6 +35,9 @@ def process_geocache_logs_xml_file(xmlfile, open_in_browser):
                 for log in soup.find_all('log'):
                         gc_code = log.find("code").string
                         gc_time = log.find("time").string
+                        if(gc_code is None):
+                            print("Warning: empty gc_code.  Ignoring entry.   gc_time = " + gc_time)
+                            continue
                         gc_result = log.find("result").string
                         gc_comment = log.find("comment").string
 
