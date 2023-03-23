@@ -83,102 +83,48 @@ def hertsmi(ap, av, cg, sc, ws, date):
 
 	print("%-40s   ap = %4d  av = %4d  cg = %4d  sc = %4d  ws = %4d     hertsmi_2 = %4d" % (date, ap, av, cg, sc, ws, score))
 
-location="04/2021  basement"
-ap = 33
-av = 152
+# 10/2014  002 cube farm N14403
+ap = 7
+av = 0
 cg = 0
 sc = 0
-ws = 45
-hertsmi(ap, av, cg, sc, ws, location)
+ws = 55
+hertsmi(ap, av, cg, sc, ws, "10/2014 002 cube farm N14403")
 
-location="04/2021  1st floor"
-ap = 148
-av = 23
-cg = 13
-sc = 0
-ws = 30
-hertsmi(ap, av, cg, sc, ws, location)
 
-location="04/2021  2nd floor"
-ap = 56
+# 10/2014  002 cube farm N4407
+ap = 3
 av = 0
-cg = 7
-sc = 0
-ws = 13
-hertsmi(ap, av, cg, sc, ws, location)
+cg = 0
+sc = 2
+ws = 20
+hertsmi(ap, av, cg, sc, ws, "10/2014 002 cube farm N4407")
 
-# 01/2017  family room
-ap = 120
-av = 58
+
+
+
+# 2/2014  002 cube farm
+ap = 91
+av = 64
+cg = 2
+sc = 12
+ws = 110
+hertsmi(ap, av, cg, sc, ws, "02/2014 002 cube farm")
+
+# 6/2012 Lexmark 035 1k1
+ap = 8
+av = 4
 cg = 1
 sc = 0
-ws = 160
-hertsmi(ap, av, cg, sc, ws, "01/2017 family room")
+ws = 410
+hertsmi(ap, av, cg, sc, ws, "06/2012 Lexmark 035 1k1")
 
-# 01/2017  master bedroom
-ap = 38
-av = 63
-cg = 0
-sc = 0
-ws = 180
-hertsmi(ap, av, cg, sc, ws, "01/2017 master bedroom")
-
-# 01/2017  basement
-ap = 50
-av = 110
+# 6/2012 Lexmark 082 
+ap = 85
+av = 19
 cg = 5
-sc = 0
-ws = 75
-hertsmi(ap, av, cg, sc, ws, "01/2017 basement")
+sc = 15
+ws = 750
+hertsmi(ap, av, cg, sc, ws, "06/2012 Lexmark 082")
 
-
-# 10/2014  bedroom
-ap = 0
-av = 0
-cg = 0
-sc = 0
-ws = 22
-hertsmi(ap, av, cg, sc, ws, "10/2014 bedroom")
-	
-
-# 10/2014  family room computer table
-ap = 11
-av = 10
-cg = 2
-sc = 0
-ws = 120
-hertsmi(ap, av, cg, sc, ws, "10/2014 family room")
-	
-
-# 2013
-ap = 140
-av = 49
-cg = 15
-sc = 1
-ws = 250
-hertsmi(ap, av, cg, sc, ws, "01/2013 family room")
-
-# 8/2012 family room
-ap = 19
-av = 32
-cg = 0
-sc = 0
-ws = 600
-hertsmi(ap, av, cg, sc, ws, "08/2012 family room")
-
-# 8/2012 bedroom
-ap = 15
-av = 38
-cg = 4
-sc = 0
-ws = 430
-hertsmi(ap, av, cg, sc, ws, "08/2012 bedroom")
-
-# 8/2012 office
-ap = 46
-av = 35
-cg = 6
-sc = 0
-ws = 760
-hertsmi(ap, av, cg, sc, ws, "08/2012 office")
 
